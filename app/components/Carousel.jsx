@@ -4,7 +4,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { client, urlFor } from '../lib/sanity';
-
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 export default function Carousel() {
     const [isLoading, setIsLoading] = useState(true);
     const [carouselData, setCarouselData] = useState([]);
@@ -18,8 +18,6 @@ export default function Carousel() {
                 // Manipula los datos según tus necesidades
                 setCarouselData(data[0]);
                 setIsLoading(false);
-                console.log(data);
-
                 // Aquí puedes realizar operaciones adicionales si es necesario
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -34,8 +32,6 @@ export default function Carousel() {
     const urlImage = carouselData.map((element, index) => {
         return urlFor(element).url(); // Utiliza 'element' en lugar de 'carouselData[index]'
     });
-
-    console.log(urlImage)
     const slider = useRef(null);
 
     const goToPrev = () => {
@@ -85,13 +81,13 @@ export default function Carousel() {
                     className="flex absolute top-0 left-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none"
                 >
 
-                    <img src='/iconmonstr-angel-left-thin.svg' alt="Previous" />
+                    <ArrowLeft />
                 </button>
                 <button type="button"
                     className="flex absolute top-0 right-0 z-30 justify-center items-center px-4 h-full cursor-pointer group focus:outline-none"
                     onClick={goToNext}>
 
-                    <img src='/iconmonstr-angel-right-thin.svg' alt="Next" />
+                    <ArrowRight />
                 </button>
             </div>
 
