@@ -32,7 +32,7 @@ function NewProducts() {
     if (isLoading) {
         return (
             <div>
-                <h1>Cargando Carrousel...</h1>
+                <h1>Cargando Nuevos Productos</h1>
             </div>
         );
     }

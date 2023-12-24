@@ -17,11 +17,12 @@ export default function Carousel() {
 
                 // Manipula los datos según tus necesidades
                 setCarouselData(data[0]);
-                setIsLoading(false);
                 // Aquí puedes realizar operaciones adicionales si es necesario
             } catch (error) {
                 console.error('Error fetching data:', error);
                 setIsLoading(false);
+            }finally{
+                setIsLoading(false)
             }
         };
 

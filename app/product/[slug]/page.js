@@ -2,6 +2,9 @@
 import { client } from '@/app/lib/sanity';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react'
+import ImageGallery from '../../components/ImageGallery'
+import { Button } from '@/components/ui/button';
+import { Star } from 'lucide-react';
 export default function PageProduct() {
     const [isLoading, setIsLoading] = useState(true);
     const [productData, setProductData] = useState([]);
@@ -31,15 +34,16 @@ export default function PageProduct() {
     if (isLoading) {
         return (
             <div>
-                <h1>Cargando Carrousel...</h1>
+                <h1>Cargando Producto</h1>
             </div>
         );
     }
+    
     return (
         <div className="bg-white">
             <div className="mx-auto max-w-screen-xl px-4 md:px-8">
                 <div className="grid gap-8 md:grid-cols-2">
-                    {/* <ImageGallery images={data.images} /> */}
+                    <ImageGallery images={productData.images} />
 
                     <div className="md:py-8">
                         <div className="mb-2 md:mb-3">
@@ -52,10 +56,10 @@ export default function PageProduct() {
                         </div>
 
                         <div className="mb-6 flex items-center gap-3 md:mb-10">
-                            {/* <Button className="rounded-full gap-x-2">
+                            <Button className="rounded-full gap-x-2">
                                 <span className="text-sm">4.2</span>
                                 <Star className="h-5 w-5" />
-                            </Button> */}
+                            </Button> 
 
                             <span className="text-sm text-gray-500 transition duration-100">
                                 56 Ratings
@@ -80,6 +84,9 @@ export default function PageProduct() {
                         <div className="mb-6 flex items-center gap-2 text-gray-500">
                             {/* <Truck className="w-6 h-6" /> */}
                             <span className="text-sm">2-4 Day Shipping</span>
+                        </div>
+                        <div className="flex gap-2.5">
+                            <Button>Añadir</Button>
                         </div>
                         <p className="mt-12 text-base text-gray-500 tracking-wide">
                             {productData.description}
