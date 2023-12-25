@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import { ShoppingBag } from "lucide-react";
 
 const links = [
-  { name: "Maquillaje", href: "/" },
-  { name: "Detalles", href: "/Men" },
+  { name: "Maquillaje", href: "/maquillaje" },
+  { name: "Detalles", href: "/detalles" },
 ];
 
 export default function Navbar() {
