@@ -5,16 +5,20 @@ import { TiDeleteOutline } from 'react-icons/ti';
 
 import { useStateContext } from '../context/StateContext';
 import { Button } from '@/components/ui/button';
+import { urlFor } from '../lib/sanity';
 export default function () {
     const cartRef = useRef();
     const { totalPrice, totalQuantities, cartItems, setShowCart, toggleCartItemQuanitity,
         onRemove } = useStateContext();
 
+    cartItems.map((item) => (
+        console.log(urlFor(item.images[0]).url())
+    ));
     return (
         <div className="cart-wrapper" ref={cartRef}>
             <div className='cart-container'>
                 <button type='button'
-                    className='flex items-center text-[18px] font-medium cursor-pointer gap-2 ml-10px '
+                    className='flex items-center text-[18px] font-medium cursor-pointer gap-2 ml-10px py-5 '
                     onClick={() => setShowCart(false)}>
 
                     <AiOutlineLeft />
@@ -28,7 +32,7 @@ export default function () {
                         <Link href='/'>
                             <Button
                                 onClick={() => setShowCart(false)}
-                                >
+                            >
                                 Continuar Compras
                             </Button>
 
@@ -36,30 +40,30 @@ export default function () {
                     </div>
                 )}
 
-                <div className='product-container'>
+                <div className='flex flex-wrap justify-center'>
 
-                    {cartItems.length >= 1 && cartItems.map((item) => (
+                    {cartItems.length >= 1 && cartItems.map((item, index) => (
 
-                        <div className='product' key={item.id}>
+                        <div className='flex pb-3' key={index}>
 
-{/*                             <img src={urlFor(item?.image[0])} className="cart-product-image" />
- */}                            <div className='item-desc'>
-                                <div className='flex top'>
-                                    <h5>{item.name}</h5>
+                            <img className="w-[150px] h-[150px] rounded-xl"
+                                src={urlFor(item.images[0]).url()} />
+                            <div className='flex flex-col w-full'>
+                                <div className='flex justify-between p-2'>
+                                    <span className='text-[16px]'>{item.name}</span>
                                     <h5>${item.price}</h5>
                                 </div>
-                                <div className='flex bottom'>
-                                    <div>
-                                        <p className="quantity-desc">
-                                            <span className="minus" onClick={() => toggleCartItemQuanitity(item._id, 'dec')}><AiOutlineMinus /></span>
-                                            <span className="num">{item.quantity}</span>
-                                            <span className="plus" onClick={() => toggleCartItemQuanitity(item._id, 'inc')}><AiOutlinePlus /></span>
+                                <div className='flex items-center justify-between px-5'>
+                                    <div className=''>
+                                        <p className="flex gap-3">
+                                            <span className="border flex items-center" onClick={() => toggleCartItemQuanitity(item._id, 'dec')}><AiOutlineMinus /></span>
+                                            <span className="rounded-full flex items-center">{item.quantity}</span>
+                                            <span className="border flex items-center" onClick={() => toggleCartItemQuanitity(item._id, 'inc')}><AiOutlinePlus /></span>
                                         </p>
-
                                     </div>
                                     <button
                                         type="button"
-                                        className="remove-item"
+                                        className="text-red-500 text-2xl"
                                         onClick={() => onRemove(item)}
                                     >
                                         <TiDeleteOutline />
@@ -70,15 +74,17 @@ export default function () {
                     ))}
                 </div>
                 {cartItems.length >= 1 && (
-                    <div className="cart-bottom">
-                        <div className="total">
+                    <div className="absolute bottom-12 w-full p-5 md:p-30 lg:p-30 xl:p-30">
+                        <div className="flex justify-between">
                             <h3>Subtotal:</h3>
                             <h3>${totalPrice}</h3>
                         </div>
-                        <div className="btn-container">
-                            <Link href="https://wa.me/573167184276" className="btn">
-                                Cotizar
-                            </Link>
+                        <div className="pt-4">
+                            <Button className="w-full">
+                                <Link href="https://wa.me/573167184276" className="btn">
+                                    Cotizar
+                                </Link>
+                            </Button>
                         </div>
                     </div>
                 )}

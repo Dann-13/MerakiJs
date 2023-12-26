@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 import ImageGallery from '../../components/ImageGallery'
 import { Button } from '@/components/ui/button';
 import { Star } from 'lucide-react';
+import { useStateContext } from '@/app/context/StateContext';
+import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 export default function PageProduct() {
     const [isLoading, setIsLoading] = useState(true);
     const [productData, setProductData] = useState([]);
@@ -38,7 +40,8 @@ export default function PageProduct() {
             </div>
         );
     }
-    
+    const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
+
     return (
         <div className="bg-white">
             <div className="mx-auto max-w-screen-xl px-4 md:px-8">
@@ -59,7 +62,7 @@ export default function PageProduct() {
                             <Button className="rounded-full gap-x-2">
                                 <span className="text-sm">4.2</span>
                                 <Star className="h-5 w-5" />
-                            </Button> 
+                            </Button>
 
                             <span className="text-sm text-gray-500 transition duration-100">
                                 56 Ratings
@@ -81,12 +84,22 @@ export default function PageProduct() {
                             </span>
                         </div>
 
+                        <div className="quantity">
+                            <h3>Quantity:</h3>
+                            <p className="quantity-desc">
+                                <span className="minus" onClick={decQty}><AiOutlineMinus /></span>
+                                <span className="num">{qty}</span>
+                                <span className="plus" onClick={incQty}><AiOutlinePlus /></span>
+                            </p>
+                        </div>
+
                         <div className="mb-6 flex items-center gap-2 text-gray-500">
                             {/* <Truck className="w-6 h-6" /> */}
                             <span className="text-sm">2-4 Day Shipping</span>
                         </div>
                         <div className="flex gap-2.5">
-                            <Button>Añadir</Button>
+                            <Button
+                                onClick={() => onAdd(productData, qty)}>Añadir</Button>
                         </div>
                         <p className="mt-12 text-base text-gray-500 tracking-wide">
                             {productData.description}
