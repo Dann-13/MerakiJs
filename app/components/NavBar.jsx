@@ -3,6 +3,9 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ShoppingBag } from "lucide-react";
+import { AiOutlineShopping } from "react-icons/ai";
+import Cart from "./Cart";
+import { useStateContext } from "../context/StateContext";
 
 const links = [
   { name: "Maquillaje", href: "/maquillaje" },
@@ -11,8 +14,9 @@ const links = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const { showCart, setShowCart, totalQuantities } = useStateContext();
   return (
-    <header className="border-b">
+    <header className="p-5">
       <div className="flex items-center justify-between mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl">
         <Link href="/">
           <h1 className="text-2xl md:text-4xl font-bold">
@@ -42,17 +46,20 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <div className="flex divide-x border-r sm:border-l">
-          <Button
-            variant={"outline"}
-        
-            className="flex flex-col gap-y-1.5 h-12 w-12 sm:h-20 sm:w-20 md:h-24 md:w-24 rounded-none"
-          >
-            <ShoppingBag />
-            <span className="hidden text-xs font-semibold text-gray-500 sm:block">
-              Cart
-            </span>
-          </Button>
+        <div className={`gap-3 md:!flex ${showCart ? 'md:flex' : 'md:hidden '}`}>
+          <div className='flex items-center mb-2 sm:mb-0'>
+            <button
+              type='button'
+              className='cart-icon'
+              onClick={() => {
+                setShowCart(true);
+              }}
+            >
+              <AiOutlineShopping className="text-2xl" />
+              <span className="absolute font-bold text-sm text-white bg-primary w-5 rounded-full text-center top-6">{totalQuantities}</span>
+            </button>
+          </div>
+          {showCart && <Cart />}
         </div>
       </div>
     </header>
