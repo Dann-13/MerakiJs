@@ -21,7 +21,7 @@ export default function Carousel() {
             } catch (error) {
                 console.error('Error fetching data:', error);
                 setIsLoading(false);
-            }finally{
+            } finally {
                 setIsLoading(false)
             }
         };
@@ -60,7 +60,10 @@ export default function Carousel() {
     if (isLoading) { // ⬅️ si está cargando, mostramos un texto que lo indique
         return (
             <div>
-                <h1>Cargando Carrousel...</h1>
+                <div className="relative flex justify-center items-center py-28">
+                    <div className="absolute animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-custom-pinkFuerte"></div>
+                    <img src="/avatar.png" className="rounded-full h-28 w-28" />
+                </div>
             </div>
         );
     }

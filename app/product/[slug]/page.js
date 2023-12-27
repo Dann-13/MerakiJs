@@ -35,8 +35,13 @@ export default function PageProduct() {
     }, []);
     if (isLoading) {
         return (
+
             <div>
-                <h1>Cargando Producto</h1>
+                <div className="relative flex justify-center items-center py-28">
+                    <div className="absolute animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-custom-pinkFuerte"></div>
+                    <img src="/avatar.png" className="rounded-full h-28 w-28" />
+                </div>
+
             </div>
         );
     }

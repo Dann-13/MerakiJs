@@ -4,6 +4,8 @@ import { client } from '../lib/sanity';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
+import { Progress } from '@/components/ui/progress'
+
 function NewProducts() {
     const [isLoading, setIsLoading] = useState(true);
     const [productData, setProductData] = useState([]);
@@ -31,8 +33,9 @@ function NewProducts() {
     }, []);
     if (isLoading) {
         return (
-            <div>
+            <div className='w-full flex flex-col items-center justify-center gap-4'>
                 <h1>Cargando Nuevos Productos</h1>
+                <Progress className="w-[50%]" value={33} />
             </div>
         );
     }
@@ -41,7 +44,7 @@ function NewProducts() {
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                 <div className="flex justify-between items-center">
                     <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-                        Our Newest products
+                        Nuevos Productos
                     </h2>
 
                     <Link className="text-primary flex items-center gap-x-1" href="/all">

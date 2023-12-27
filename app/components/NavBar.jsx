@@ -16,12 +16,17 @@ export default function Navbar() {
   const pathname = usePathname();
   const { showCart, setShowCart, totalQuantities } = useStateContext();
   return (
-    <header className="p-5">
+    <header className="p-2">
       <div className="flex items-center justify-between mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl">
         <Link href="/">
-          <h1 className="text-2xl md:text-4xl font-bold">
-            Next<span className="text-primary">Commerce</span>
-          </h1>
+          <div className="flex justify-center items-center md:pt-0 md:px-5">
+            <img
+              src="/logo_transparente.png"
+              alt=""
+              className="inset-0 w-[75px] md:w-[75px] object-cover"
+            />
+          </div>
+
         </Link>
 
         <nav className="hidden gap-12 lg:flex 2xl:ml-16">

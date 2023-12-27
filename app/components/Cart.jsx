@@ -40,11 +40,11 @@ export default function () {
                     </div>
                 )}
 
-                <div className='flex flex-wrap justify-center'>
+                <div className='flex flex-wrap justify-center md:justify-between'>
 
                     {cartItems.length >= 1 && cartItems.map((item, index) => (
 
-                        <div className='flex pb-3' key={index}>
+                        <div className='flex pb-3 md:w-full md:px-7' key={index}>
 
                             <img className="w-[150px] h-[150px] rounded-xl"
                                 src={urlFor(item.images[0]).url()} />

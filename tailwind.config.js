@@ -6,7 +6,7 @@ module.exports = {
     './components/**/*.{js,jsx}',
     './app/**/*.{js,jsx}',
     './src/**/*.{js,jsx}',
-	],
+  ],
   theme: {
     container: {
       center: true,
@@ -17,6 +17,10 @@ module.exports = {
     },
     extend: {
       colors: {
+        'custom-pink': '#FCB4B4',
+        'custom-pink2': '#FCC0B3',
+        'custom-pinkFooter': '#FDC3C3',
+        'custom-pinkFuerte': '#EE426C',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
