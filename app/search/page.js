@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { client } from '../lib/sanity';
 import { Progress } from '@radix-ui/react-progress';
-import Link from 'next/link';
-import Image from 'next/image';
+import ProductCard from '../components/ProductCard';
 
 export default function SearchPage() {
     // Estado para almacenar la consulta de búsqueda
@@ -25,34 +24,46 @@ export default function SearchPage() {
             console.log(`La búsqueda actualizada es: ${searchQuery}`);
             // Puedes invocar funciones que dependan de searchQuery
             // Ejemplo: actualizarResultados(searchQuery);
+
+            // Llama a fetchData solo si searchQuery tiene un valor
+            fetchData();
         }
     }, [searchQuery]); // Se ejecuta cuando searchQuery cambia
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const query = `*[_type == "product" && name match "${searchQuery}"] {
-                _id,
-                price,
-                name,
-                "slug": slug.current,
-                "categoryName": category->name,
-                "imageUrl": images[0].asset->url
-              }
-            `;
-                const data = await client.fetch(query);
-                setProductData(data);
-                setIsLoading(false);
-                console.log(query);
-            } catch (error) {
-                console.log(error);
-            }
-        };
+        // Evita realizar la llamada a fetchData en el primer renderizado si searchQuery no tiene un valor
+        if (searchQuery) {
+            fetchData();
+        }
+    }, []); // Se ejecuta solo una vez al montar el componente
 
-        // Agrega searchQuery como dependencia para que este efecto se vuelva a ejecutar cuando searchQuery cambie
-        fetchData();
-    }, [searchQuery]);
+    const fetchData = async () => {
+        try {
+            const query = `*[_type == "product" && name match "${searchQuery}"] {
+                 _id,
+                 price,
+                 name,
+                 "slug": slug.current,
+                 "categoryName": category->name,
+                 "imageUrl": images[0].asset->url
+             }`;
+            const data = await client.fetch(query);
+            console.log(data);
+            setProductData(data);
+            setIsLoading(false);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
+    if (isLoading) {
+        return (
+            <div className='w-full flex flex-col items-center justify-center gap-4'>
+                <h1>Cargando Productos</h1>
+                <Progress className="w-[50%]" value={33} />
+            </div>
+        );
+    }
     if (isLoading) {
         return (
             <div className='w-full flex flex-col items-center justify-center gap-4'>
@@ -66,36 +77,15 @@ export default function SearchPage() {
             <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                 {productData.length > 0 ? (
                     productData.map((product) => (
-                        <div key={product._id} className="group relative">
-                            <div className="aspect-square w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:h-80">
-                                <Image
-                                    src={product.imageUrl}
-                                    alt="Product image"
-                                    className="w-full h-full object-cover object-center lg:h-full lg:w-full"
-                                    width={300}
-                                    height={300}
-                                />
-                            </div>
-
-                            <div className="mt-4 flex justify-between">
-                                <div>
-                                    <h3 className="text-sm text-gray-700">
-                                        <Link href={`/product/${product.slug}`}>
-                                            {product.name}
-                                        </Link>
-                                    </h3>
-                                    <p className="mt-1 text-sm text-gray-500">
-                                        {product.categoryName}
-                                    </p>
-                                </div>
-                                <p className="text-sm font-medium text-gray-900">
-                                    ${product.price}
-                                </p>
-                            </div>
-                        </div>
+                        <ProductCard key={product._id} data={product} />
                     ))
                 ) : (
-                    <div>No se encontraron productos.{searchQuery}</div>
+                    <div className='flex flex-col justify-center w-full' >
+                        <div className="relative flex justify-center items-center">
+                            <img src="/avatar.png" className="rounded-full h-28 w-28" />
+                        </div>
+                        No se encontraron productos para "{searchQuery}"
+                    </div>
                 )}
 
             </div>
