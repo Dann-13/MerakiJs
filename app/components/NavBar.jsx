@@ -1,11 +1,11 @@
 "use client"
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ShoppingBag } from "lucide-react";
 import { AiOutlineShopping } from "react-icons/ai";
 import Cart from "./Cart";
 import { useStateContext } from "../context/StateContext";
+import React, { useEffect, useState } from 'react';
+import SearchInput from "./SearchInput";
 
 const links = [
   { name: "Maquillaje", href: "/maquillaje" },
@@ -13,6 +13,7 @@ const links = [
 ];
 
 export default function Navbar() {
+  
   const pathname = usePathname();
   const { showCart, setShowCart, totalQuantities } = useStateContext();
   return (
@@ -26,31 +27,8 @@ export default function Navbar() {
               className="inset-0 w-[75px] md:w-[75px] object-cover"
             />
           </div>
-
         </Link>
-
-        <nav className="hidden gap-12 lg:flex 2xl:ml-16">
-          {links.map((link, idx) => (
-            <div key={idx}>
-              {pathname === link.href ? (
-                <Link
-                  className="text-lg font-semibold text-primary"
-                  href={link.href}
-                >
-                  {link.name}
-                </Link>
-              ) : (
-                <Link
-                  href={link.href}
-                  className="text-lg font-semibold text-gray-600 transition duration-100 hover:text-primary"
-                >
-                  {link.name}
-                </Link>
-              )}
-            </div>
-          ))}
-        </nav>
-
+        <SearchInput />
         <div className={`gap-3 md:!flex ${showCart ? 'md:flex' : 'md:hidden '}`}>
           <div className='flex items-center mb-2 sm:mb-0'>
             <button
@@ -66,6 +44,30 @@ export default function Navbar() {
           </div>
           {showCart && <Cart />}
         </div>
+      </div>
+      <div className="flex justify-center py-2">
+        <nav className="flex gap-12 2xl:ml-16">
+          {links.map((link, idx) => (
+            <div key={idx}>
+              {pathname === link.href ? (
+                <Link
+                  className="text-sm md:text-lg font-semibold text-primary"
+                  href={link.href}
+                >
+                  {link.name}
+                </Link>
+              ) : (
+                <Link
+                  href={link.href}
+                  className="text-sm md:text-lg font-semibold text-gray-600 transition duration-100 hover:text-primary"
+                >
+                  {link.name}
+                </Link>
+              )}
+            </div>
+          ))}
+        </nav>
+
       </div>
     </header>
   );
