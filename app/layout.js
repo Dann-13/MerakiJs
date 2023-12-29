@@ -3,7 +3,7 @@ import './globals.css'
 import NavBar from './components/NavBar'
 import { StateContext } from './context/StateContext'
 import { Toaster } from 'react-hot-toast'
-import Footer from './components/Footer'
+import Footer from './components/navigation/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 

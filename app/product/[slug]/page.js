@@ -7,7 +7,10 @@ import { Button } from '@/components/ui/button';
 import { Star } from 'lucide-react';
 import { useStateContext } from '@/app/context/StateContext';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
+import ProductCard from '@/app/components/ProductCard';
+import RelatedProducts from '@/app/components/RelatedProducts';
 export default function PageProduct() {
+    const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
     const [isLoading, setIsLoading] = useState(true);
     const [productData, setProductData] = useState([]);
     const params = useParams();
@@ -26,9 +29,8 @@ export default function PageProduct() {
                 const data = await client.fetch(query);
                 setProductData(data);
                 setIsLoading(false);
-                console.log(data)
             } catch (error) {
-
+                console.error("Error fetching data:", error);
             }
         }
         fetchData();
@@ -45,7 +47,7 @@ export default function PageProduct() {
             </div>
         );
     }
-    const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
+    
 
     return (
         <div className="bg-white">
@@ -63,7 +65,7 @@ export default function PageProduct() {
                             </h2>
                         </div>
 
-                        <div className="mb-6 flex items-center gap-3 md:mb-10">
+                        {/* <div className="mb-6 flex items-center gap-3 md:mb-10">
                             <Button className="rounded-full gap-x-2">
                                 <span className="text-sm">4.2</span>
                                 <Star className="h-5 w-5" />
@@ -72,15 +74,12 @@ export default function PageProduct() {
                             <span className="text-sm text-gray-500 transition duration-100">
                                 56 Ratings
                             </span>
-                        </div>
+                        </div> */}
 
                         <div className="mb-4">
                             <div className="flex items-end gap-2">
                                 <span className="text-xl font-bold text-gray-800 md:text-2xl">
                                     ${productData.price}
-                                </span>
-                                <span className="mb-0.5 text-red-500 line-through">
-                                    ${productData.price + 30}
                                 </span>
                             </div>
 
@@ -91,10 +90,12 @@ export default function PageProduct() {
 
                         <div className="quantity">
                             <h3>Quantity:</h3>
-                            <p className="quantity-desc">
-                                <span className="minus" onClick={decQty}><AiOutlineMinus /></span>
+                            <p className="flex gap-5 items-center p-3">
+                                <span className="hover:bg-slate-400 border-2 rounded-lg p-2" onClick={decQty}>
+                                    <AiOutlineMinus className='text-black hover:text-white' />
+                                </span>
                                 <span className="num">{qty}</span>
-                                <span className="plus" onClick={incQty}><AiOutlinePlus /></span>
+                                <span className="hover:bg-custom-pink border-2 rounded-lg p-2" onClick={incQty}><AiOutlinePlus /></span>
                             </p>
                         </div>
 
@@ -111,6 +112,9 @@ export default function PageProduct() {
                         </p>
                     </div>
                 </div>
+            </div>
+            <div>
+                <RelatedProducts category={productData.categoryName} />
             </div>
         </div>
     )

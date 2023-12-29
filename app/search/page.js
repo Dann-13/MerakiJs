@@ -48,7 +48,6 @@ export default function SearchPage() {
                  "imageUrl": images[0].asset->url
              }`;
             const data = await client.fetch(query);
-            console.log(data);
             setProductData(data);
             setIsLoading(false);
         } catch (error) {
@@ -74,22 +73,24 @@ export default function SearchPage() {
     }
     return (
         <div className='p-5'>
-            <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+            <div className={`${productData.length === 0 ? '!grid' : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 '}`}>
+
                 {productData.length > 0 ? (
                     productData.map((product) => (
                         <ProductCard key={product._id} data={product} />
                     ))
                 ) : (
-                    <div className='flex flex-col justify-center w-full' >
+                    <div className='flex flex-col justify-center w-full'>
                         <div className="relative flex justify-center items-center">
                             <img src="/avatar.png" className="rounded-full h-28 w-28" />
                         </div>
-                        No se encontraron productos para "{searchQuery}"
+                        <p className='text-center'> No se encontraron productos para "{searchQuery}"</p>
                     </div>
                 )}
 
             </div>
         </div>
+
 
     )
 }

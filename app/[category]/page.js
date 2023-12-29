@@ -3,21 +3,23 @@ import { client } from "../lib/sanity";
 import Link from "next/link";
 
 async function getData(category) {
+    console.log(category)
     const query = `*[_type == "product" && category->name == "${category}"] {
         _id,
-          "imageUrl": images[0].asset->url,
-          price,
-          name,
-          "slug": slug.current,
-          "categoryName": category->name
-      }`;
+        "imageUrl": images[0].asset->url,
+        price,
+        name,
+        "slug": slug.current,
+        "categoryName": category->name
+      }
+      `;
 
     const data = await client.fetch(query);
     return data;
 }
 
 export default async function CategoryPage({ params }) {
-    console.log(params)
+    
     const data = await getData(params.category);
     return (
         <div className="bg-white">

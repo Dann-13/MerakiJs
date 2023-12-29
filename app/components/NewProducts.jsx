@@ -55,9 +55,9 @@ function NewProducts() {
                     </Link>
                 </div>
 
-                <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                <div className="w-3/4 mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8 mx-auto items-center md:w-full">
                     {productData.map((product) => (
-                        <ProductCard data={product} />
+                        <ProductCard key={product._id} data={product} />
                     ))}
                 </div>
             </div>
