@@ -42,7 +42,7 @@ export default function PageProduct() {
             <div>
                 <div className="relative flex justify-center items-center py-28">
                     <div className="absolute animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-custom-pinkFuerte"></div>
-                    <Image src="/avatar.png" className="rounded-full h-28 w-28" />
+                    <Image src="/avatar.png" className="rounded-full" width={30} height={30} alt='avatar' />
                 </div>
 
             </div>

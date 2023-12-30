@@ -1,9 +1,10 @@
 "use client"
-import React, { useEffect, useState } from 'react';
 import { client } from '../lib/sanity';
 import { Progress } from '@radix-ui/react-progress';
 import ProductCard from '../components/ProductCard';
 import Image from 'next/image';
+import React, { useState, useEffect, useCallback } from 'react';
+
 
 export default function SearchPage() {
     // Estado para almacenar la consulta de búsqueda
@@ -11,10 +12,8 @@ export default function SearchPage() {
     const [productData, setProductData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Mueve la declaración de fetchData antes de su uso
-    const fetchData = async () => {
+    const fetchData = useCallback(async () => {
         try {
-            // Escapa las comillas en la expresión regular de la búsqueda
             const escapedSearchQuery = searchQuery.replace(/["\\]/g, '\\$&');
             const query = `*[_type == "product" && name match "${escapedSearchQuery}"] {
         _id,
@@ -31,29 +30,20 @@ export default function SearchPage() {
             console.error(error);
             setIsLoading(false);
         }
-    };
+    }, [searchQuery]);
 
     useEffect(() => {
-        // Obtén el queryParam al montar el componente
         const urlParams = new URLSearchParams(window.location.search);
         const queryParam = urlParams.get('q');
-
-        // Actualiza el estado con la consulta de búsqueda
         setSearchQuery(queryParam || '');
-    }, []); // Se ejecuta solo una vez al montar el componente
+    }, []);
 
     useEffect(() => {
-        // Realiza acciones adicionales después de actualizar el estado
         if (searchQuery) {
             console.log(`La búsqueda actualizada es: ${searchQuery}`);
-            // Puedes invocar funciones que dependan de searchQuery
-            // Ejemplo: actualizarResultados(searchQuery);
-
-            // Llama a fetchData solo si searchQuery tiene un valor
             fetchData();
         }
     }, [searchQuery, fetchData]);
-
     if (isLoading) {
         return (
             <div className='w-full flex flex-col items-center justify-center gap-4'>

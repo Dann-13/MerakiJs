@@ -1,3 +1,4 @@
+"use client"
 import React, { useRef } from 'react';
 import Link from 'next/link';
 import { AiOutlineMinus, AiOutlinePlus, AiOutlineLeft, AiOutlineShopping } from 'react-icons/ai';
@@ -7,7 +8,7 @@ import { useStateContext } from '../context/StateContext';
 import { Button } from '@/components/ui/button';
 import { urlFor } from '../lib/sanity';
 import Image from 'next/image';
-export default function () {
+export default function Cart() {
     const cartRef = useRef();
     const { totalPrice, totalQuantities, cartItems, setShowCart, toggleCartItemQuanitity,
         onRemove } = useStateContext();
