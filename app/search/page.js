@@ -1,4 +1,3 @@
-"use client"
 import React, { useEffect, useState } from 'react';
 import { client } from '../lib/sanity';
 import { Progress } from '@radix-ui/react-progress';
@@ -30,16 +29,11 @@ export default function SearchPage() {
         }
     }, [searchQuery]); // Se ejecuta cuando searchQuery cambia
 
-    useEffect(() => {
-        // Evita realizar la llamada a fetchData en el primer renderizado si searchQuery no tiene un valor
-        if (searchQuery) {
-            fetchData();
-        }
-    }, []); // Se ejecuta solo una vez al montar el componente
-
     const fetchData = async () => {
         try {
-            const query = `*[_type == "product" && name match "${searchQuery}"] {
+            // Escapa las comillas en la expresión regular de la búsqueda
+            const escapedSearchQuery = searchQuery.replace(/["\\]/g, '\\$&');
+            const query = `*[_type == "product" && name match "${escapedSearchQuery}"] {
                  _id,
                  price,
                  name,
@@ -51,7 +45,8 @@ export default function SearchPage() {
             setProductData(data);
             setIsLoading(false);
         } catch (error) {
-            console.log(error);
+            console.error(error);
+            setIsLoading(false);
         }
     };
 
@@ -63,18 +58,10 @@ export default function SearchPage() {
             </div>
         );
     }
-    if (isLoading) {
-        return (
-            <div className='w-full flex flex-col items-center justify-center gap-4'>
-                <h1>Cargando Productos</h1>
-                <Progress className="w-[50%]" value={33} />
-            </div>
-        );
-    }
+
     return (
         <div className='p-5'>
             <div className={`${productData.length === 0 ? '!grid' : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 '}`}>
-
                 {productData.length > 0 ? (
                     productData.map((product) => (
                         <ProductCard key={product._id} data={product} />
@@ -87,10 +74,7 @@ export default function SearchPage() {
                         <p className='text-center'> No se encontraron productos para "{searchQuery}"</p>
                     </div>
                 )}
-
             </div>
         </div>
-
-
-    )
+    );
 }

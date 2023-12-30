@@ -80,11 +80,13 @@ export default function () {
                             <h3>${totalPrice}</h3>
                         </div>
                         <div className="pt-4">
-                            <Button className="w-full">
-                                <Link href="https://wa.me/573167184276" className="btn">
+                            <Button className="w-full btn">
+                                <Link href="https://wa.me/573167184276">
                                     Cotizar
                                 </Link>
                             </Button>
+
+
                         </div>
                     </div>
                 )}

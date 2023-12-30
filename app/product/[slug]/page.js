@@ -34,7 +34,7 @@ export default function PageProduct() {
             }
         }
         fetchData();
-    }, []);
+    }, [params.slug]);
     if (isLoading) {
         return (
 

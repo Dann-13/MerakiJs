@@ -24,9 +24,11 @@ export default function RelatedProducts({ category }) {
             } catch (error) {
                 console.log(error)
             }
-        }
+        };
+
         fetchData();
-    }, []);
+    }, [category]);  // Agregamos "category" al array de dependencias
+
     if (isLoading) {
         return (
             <div className='w-full flex flex-col items-center justify-center gap-4'>
@@ -35,6 +37,7 @@ export default function RelatedProducts({ category }) {
             </div>
         );
     }
+
     return (
         <div className="maylike-products-wrapper">
             <h2>Elige el que + te guste</h2>
@@ -46,6 +49,5 @@ export default function RelatedProducts({ category }) {
                 </div>
             </div>
         </div>
-
-    )
+    );
 }
