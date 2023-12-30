@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { client } from '../lib/sanity';
 import { Progress } from '@radix-ui/react-progress';
 import ProductCard from '../components/ProductCard';
+import Image from 'next/image';
 
 export default function SearchPage() {
     // Estado para almacenar la consulta de búsqueda
@@ -10,12 +11,35 @@ export default function SearchPage() {
     const [productData, setProductData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
+    // Mueve la declaración de fetchData antes de su uso
+    const fetchData = async () => {
+        try {
+            // Escapa las comillas en la expresión regular de la búsqueda
+            const escapedSearchQuery = searchQuery.replace(/["\\]/g, '\\$&');
+            const query = `*[_type == "product" && name match "${escapedSearchQuery}"] {
+        _id,
+        price,
+        name,
+        "slug": slug.current,
+        "categoryName": category->name,
+        "imageUrl": images[0].asset->url
+      }`;
+            const data = await client.fetch(query);
+            setProductData(data);
+            setIsLoading(false);
+        } catch (error) {
+            console.error(error);
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
+        // Obtén el queryParam al montar el componente
         const urlParams = new URLSearchParams(window.location.search);
         const queryParam = urlParams.get('q');
 
         // Actualiza el estado con la consulta de búsqueda
-        setSearchQuery(queryParam || ''); // Si queryParam es nulo, establece una cadena vacía
+        setSearchQuery(queryParam || '');
     }, []); // Se ejecuta solo una vez al montar el componente
 
     useEffect(() => {
@@ -28,28 +52,7 @@ export default function SearchPage() {
             // Llama a fetchData solo si searchQuery tiene un valor
             fetchData();
         }
-    }, [searchQuery]); // Se ejecuta cuando searchQuery cambia
-
-    const fetchData = async () => {
-        try {
-            // Escapa las comillas en la expresión regular de la búsqueda
-            const escapedSearchQuery = searchQuery.replace(/["\\]/g, '\\$&');
-            const query = `*[_type == "product" && name match "${escapedSearchQuery}"] {
-                 _id,
-                 price,
-                 name,
-                 "slug": slug.current,
-                 "categoryName": category->name,
-                 "imageUrl": images[0].asset->url
-             }`;
-            const data = await client.fetch(query);
-            setProductData(data);
-            setIsLoading(false);
-        } catch (error) {
-            console.error(error);
-            setIsLoading(false);
-        }
-    };
+    }, [searchQuery, fetchData]);
 
     if (isLoading) {
         return (
@@ -70,9 +73,10 @@ export default function SearchPage() {
                 ) : (
                     <div className='flex flex-col justify-center w-full'>
                         <div className="relative flex justify-center items-center">
-                            <img src="/avatar.png" className="rounded-full h-28 w-28" />
+                            <Image src="/avatar.png " width={100}
+                                height={100} alt="No se encontraron productos" className="rounded-full" />
                         </div>
-                        <p className='text-center'> No se encontraron productos para "{searchQuery}"</p>
+                        <p className='text-center'> No se encontraron productos para &quot;{searchQuery}&quot;</p>
                     </div>
                 )}
             </div>

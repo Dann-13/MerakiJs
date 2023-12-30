@@ -1,14 +1,16 @@
 import { FaFacebook, FaInstagram } from 'react-icons/fa'
-import { Progress } from '@/components/ui/progress'
+import Image from 'next/image'
 
 export default function Footer() {
     return (
         <div className=" lg:grid lg:grid-cols-5">
             <div className="flex justify-center items-center pt-10 md:pt-0 md:px-5">
-                <img
+                <Image
                     src="/logo_transparente.png"
-                    alt=""
-                    className="inset-0 w-[250px] md:w-[325px] object-cover"
+                    alt="logo"
+                    className="inset-0 object-cover"
+                    width={300}
+                    height={300}
                 />
             </div>
 

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { client } from '../lib/sanity';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import Image from 'next/image';
 import { Progress } from '@/components/ui/progress'
 import ProductCard from './ProductCard';
 

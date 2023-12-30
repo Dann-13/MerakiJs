@@ -25,8 +25,7 @@ export default function Navbar() {
               src="/logo_transparente.png"
               alt="Logo"
               width={100}
-              height={100}
-              
+              height={100}   
               className='flex justify-center items-center md:pt-0 md:px-5 cursor-pointer'
             />
           

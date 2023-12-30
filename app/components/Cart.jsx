@@ -6,6 +6,7 @@ import { TiDeleteOutline } from 'react-icons/ti';
 import { useStateContext } from '../context/StateContext';
 import { Button } from '@/components/ui/button';
 import { urlFor } from '../lib/sanity';
+import Image from 'next/image';
 export default function () {
     const cartRef = useRef();
     const { totalPrice, totalQuantities, cartItems, setShowCart, toggleCartItemQuanitity,
@@ -46,8 +47,8 @@ export default function () {
 
                         <div className='flex pb-3 md:w-full md:px-7' key={index}>
 
-                            <img className="w-[150px] h-[150px] rounded-xl"
-                                src={urlFor(item.images[0]).url()} />
+                            <Image className="rounded-xl"
+                                src={urlFor(item.images[0]).url()} width={150} height={150} alt='cart-images' />
                             <div className='flex flex-col w-full'>
                                 <div className='flex justify-between p-2'>
                                     <span className='text-[16px]'>{item.name}</span>

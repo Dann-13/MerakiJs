@@ -9,6 +9,7 @@ import { useStateContext } from '@/app/context/StateContext';
 import { AiOutlineMinus, AiOutlinePlus } from 'react-icons/ai';
 import ProductCard from '@/app/components/ProductCard';
 import RelatedProducts from '@/app/components/RelatedProducts';
+import Image from 'next/image';
 export default function PageProduct() {
     const { decQty, incQty, qty, onAdd, setShowCart } = useStateContext();
     const [isLoading, setIsLoading] = useState(true);
@@ -41,7 +42,7 @@ export default function PageProduct() {
             <div>
                 <div className="relative flex justify-center items-center py-28">
                     <div className="absolute animate-spin rounded-full h-32 w-32 border-t-4 border-b-4 border-custom-pinkFuerte"></div>
-                    <img src="/avatar.png" className="rounded-full h-28 w-28" />
+                    <Image src="/avatar.png" className="rounded-full h-28 w-28" />
                 </div>
 
             </div>
